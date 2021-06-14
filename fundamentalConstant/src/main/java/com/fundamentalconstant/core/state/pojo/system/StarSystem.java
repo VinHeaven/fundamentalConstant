@@ -9,7 +9,7 @@ import lombok.extern.jackson.*;
 @Data
 @SuperBuilder
 @Jacksonized
-public class System {
+public class StarSystem {
 
     private SystemName name;
     private Star star;

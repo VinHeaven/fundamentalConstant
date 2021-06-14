@@ -12,7 +12,7 @@ import static org.apache.commons.lang3.StringUtils.*;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @JsonSerialize(using = Name.NameSerializer.class)
-public abstract class Name extends StringValue {
+public abstract class Name extends StringValueValidator {
 
     @NonNull
     private final String value;

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SystemBodyTest {
+class StarSystemBodyTest {
 
     @Test
     void test() throws JsonProcessingException {

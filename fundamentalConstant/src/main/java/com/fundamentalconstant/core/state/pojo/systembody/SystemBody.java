@@ -18,6 +18,20 @@ public class SystemBody {
     @NonNull
     private Position position;
 
+    //Physikal Properties
+    @NonNull
+    private Radius radius;
+    @NonNull
+    private Mass mass;
+    @NonNull
+    private Albedo albedo;
+
+    //Orbital Properties
+    @NonNull
+    private Velocity velocity;
+    @NonNull
+    private OrbitalRadius orbitalRadius;
+
     @NonNull
     @Builder.Default
     private Set<SystemBody> childs = new HashSet<>();

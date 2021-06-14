@@ -2,7 +2,7 @@ package com.fundamentalconstant.core.state.pojo.attr;
 
 import com.fundamentalconstant.core.state.pojo.exception.*;
 
-public abstract class StringValue {
+public abstract class StringValueValidator {
 
     String cleanAndValidate(String value) {
         value = clean(value);
