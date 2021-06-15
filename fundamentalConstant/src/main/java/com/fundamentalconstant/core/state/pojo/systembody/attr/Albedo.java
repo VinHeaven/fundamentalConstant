@@ -3,7 +3,6 @@ package com.fundamentalconstant.core.state.pojo.systembody.attr;
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.annotation.*;
-import com.fundamentalconstant.core.state.pojo.attr.*;
 import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
 import lombok.*;
 
@@ -28,11 +27,11 @@ public class Albedo extends DecimalValueValidator {
         return value.isBetween(ZERO, ONE);
     }
 
-    public static class AlbedoSerializer extends JsonSerializer<Name> {
+    public static class AlbedoSerializer extends JsonSerializer<Albedo> {
 
         @Override
-        public void serialize(Name name, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-            jgen.writeString(name.getValue());
+        public void serialize(Albedo albedo, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+            jgen.writeNumber(albedo.getValue().getValue());
         }
     }
 }

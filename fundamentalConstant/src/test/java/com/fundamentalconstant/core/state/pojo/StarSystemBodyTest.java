@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.*;
 import com.fundamentalconstant.core.*;
 import com.fundamentalconstant.core.state.pojo.geometry.*;
 import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
+import com.fundamentalconstant.core.state.pojo.physics.*;
+import com.fundamentalconstant.core.state.pojo.physics.units.*;
 import com.fundamentalconstant.core.state.pojo.systembody.*;
 import com.fundamentalconstant.core.state.pojo.systembody.attr.*;
 import org.junit.jupiter.api.*;
@@ -39,6 +41,8 @@ class StarSystemBodyTest {
                         .position(new Position(XCoordinate.of(6), YCoordinate.of(10)))
                         .name(new SystemBodyName("TestName"))
                         .build());
+
+        new Distance(new IntegerNumber(50)).getDistance(DistanceUnit.FOO);
     }
 
     @Test

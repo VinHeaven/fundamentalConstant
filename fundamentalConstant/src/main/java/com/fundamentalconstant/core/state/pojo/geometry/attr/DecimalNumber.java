@@ -15,11 +15,13 @@ public class DecimalNumber implements Comparable<DecimalNumber> {
     public static final DecimalNumber ZERO = new DecimalNumber(BigDecimal.ZERO);
     public static final DecimalNumber ONE = new DecimalNumber(BigDecimal.ZERO);
 
+    private static final int DEFAULT_SCALE = 20;
+
     @NonNull
     private final BigDecimal value;
 
     public DecimalNumber(BigDecimal value) {
-        this.value = value;
+        this.value = value.setScale(DEFAULT_SCALE, RoundingMode.HALF_UP);
     }
 
     public boolean isEqualTo(DecimalNumber number) {
