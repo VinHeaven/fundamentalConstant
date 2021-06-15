@@ -18,7 +18,7 @@ public class Position {
     private final YCoordinate y;
 
     @JsonCreator
-    private Position(@NonNull BigInteger x, @NonNull BigInteger y) {
+    private Position(@NonNull BigDecimal x, @NonNull BigDecimal y) {
         this.x = XCoordinate.of(x);
         this.y = YCoordinate.of(y);
     }

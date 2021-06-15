@@ -18,7 +18,7 @@ public class SystemBody {
     @NonNull
     private Position position;
 
-    //Physikal Properties
+    //Physical Properties
     @NonNull
     private Radius radius;
     @NonNull

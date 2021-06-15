@@ -13,33 +13,42 @@ import java.math.*;
 public abstract class CartesianCoordinate {
 
     @NonNull
-    private final BigInteger value;
+    private final DecimalNumber value;
 
-    public CartesianCoordinate(@NonNull BigInteger value) {
-        this.value = value;
+    public CartesianCoordinate(@NonNull BigDecimal value) {
+        this.value = new DecimalNumber(value);
+    }
+
+    public CartesianCoordinate(String value) {
+        this.value = new DecimalNumber(value);
     }
 
     public CartesianCoordinate(int value) {
-        this.value = BigInteger.valueOf(value);
+        this.value = new DecimalNumber(value);
     }
 
     public CartesianCoordinate(long value) {
-        this.value = BigInteger.valueOf(value);
+        this.value = new DecimalNumber(value);
     }
 
     public CartesianCoordinate(double value) {
-        this.value = BigInteger.valueOf(Math.round(value));
+        this.value = new DecimalNumber(value);
     }
 
-    public BigInteger getValue() {
+    public DecimalNumber getValue() {
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return value.toString();
     }
 
     public static class CartesianCoordinateSerializer extends JsonSerializer<CartesianCoordinate> {
 
         @Override
-        public void serialize(CartesianCoordinate value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-            jgen.writeNumber(value.getValue());
+        public void serialize(CartesianCoordinate obj, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+            jgen.writeString(obj.toString());
         }
     }
 }

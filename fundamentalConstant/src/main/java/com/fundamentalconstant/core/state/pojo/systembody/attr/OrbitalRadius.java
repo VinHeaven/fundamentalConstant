@@ -3,35 +3,37 @@ package com.fundamentalconstant.core.state.pojo.systembody.attr;
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.annotation.*;
-import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
+import com.fundamentalconstant.core.state.pojo.physics.*;
 import lombok.*;
 
 import java.io.*;
 
-import static com.fundamentalconstant.core.state.pojo.geometry.attr.DecimalNumber.*;
-
 @Data
 @EqualsAndHashCode(callSuper = false)
 @JsonSerialize(using = OrbitalRadius.OrbitalRadiusSerializer.class)
-public class OrbitalRadius extends DecimalValueValidator {
+public class OrbitalRadius {
 
     @NonNull
-    private final DecimalNumber value;
+    private final Distance value;
 
-    public OrbitalRadius(@NonNull DecimalNumber value) {
-        this.value = cleanAndValidate(value);
+    public OrbitalRadius(@NonNull Distance value) {
+        this.value = value;
+    }
+
+    public OrbitalRadius(String value) {
+        this.value = new Distance(value);
     }
 
     @Override
-    boolean validate(DecimalNumber value) {
-        return value.isBiggerOrEqualThan(ZERO);
+    public String toString() {
+        return value.toString();
     }
 
     public static class OrbitalRadiusSerializer extends JsonSerializer<OrbitalRadius> {
 
         @Override
-        public void serialize(OrbitalRadius orbitalRadius, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-            jgen.writeNumber(orbitalRadius.getValue().getValue());
+        public void serialize(OrbitalRadius obj, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+            jgen.writeString(obj.toString());
         }
     }
 }

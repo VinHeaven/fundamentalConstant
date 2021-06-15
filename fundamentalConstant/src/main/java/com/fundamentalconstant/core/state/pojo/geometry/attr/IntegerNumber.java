@@ -13,9 +13,6 @@ import java.math.*;
 @JsonSerialize(using = IntegerNumber.IntegerNumberSerializer.class)
 public class IntegerNumber implements Comparable<IntegerNumber> {
 
-    public static final IntegerNumber ZERO = new IntegerNumber(BigInteger.ZERO);
-    public static final IntegerNumber ONE = new IntegerNumber(BigInteger.ZERO);
-
     @NonNull
     private final BigInteger value;
 
@@ -28,31 +25,31 @@ public class IntegerNumber implements Comparable<IntegerNumber> {
         this.value = BigInteger.valueOf(value);
     }
 
-    public boolean isEqualTo(IntegerNumber number) {
-        return this.compareTo(number) > 0;
+    public boolean equalTo(IntegerNumber integerNumber) {
+        return this.compareTo(integerNumber) > 0;
     }
 
-    public boolean isBiggerThan(IntegerNumber number) {
-        return this.compareTo(number) == 0;
+    public boolean greaterThan(IntegerNumber integerNumber) {
+        return this.compareTo(integerNumber) == 0;
     }
 
-    public boolean isSmallerThan(IntegerNumber number) {
-        return this.compareTo(number) < 0;
+    public boolean lessThan(IntegerNumber integerNumber) {
+        return this.compareTo(integerNumber) < 0;
     }
 
-    public boolean isBiggerOrEqualThan(IntegerNumber number) {
-        return this.compareTo(number) >= 0;
+    public boolean greaterOrEqualTo(IntegerNumber integerNumber) {
+        return this.compareTo(integerNumber) >= 0;
     }
 
-    public boolean isSmallerOrEqualThan(IntegerNumber number) {
-        return this.compareTo(number) <= 0;
+    public boolean lessOrEqualTo(IntegerNumber integerNumber) {
+        return this.compareTo(integerNumber) <= 0;
     }
 
-    public boolean isBetween(IntegerNumber number1, IntegerNumber number2) {
-        if (number1.isSmallerOrEqualThan(number2)) {
-            return this.isBiggerOrEqualThan(number1) && this.isSmallerOrEqualThan(number2);
+    public boolean isBetweenOrOn(IntegerNumber integerNumber1, IntegerNumber integerNumber2) {
+        if (integerNumber1.lessOrEqualTo(integerNumber2)) {
+            return this.greaterOrEqualTo(integerNumber1) && this.lessOrEqualTo(integerNumber2);
         } else {
-            return this.isBiggerOrEqualThan(number2) && this.isSmallerOrEqualThan(number1);
+            return this.greaterOrEqualTo(integerNumber2) && this.lessOrEqualTo(integerNumber1);
         }
     }
 

@@ -8,30 +8,36 @@ import lombok.*;
 
 import java.io.*;
 
-import static com.fundamentalconstant.core.state.pojo.geometry.attr.DecimalNumber.*;
+import static com.fundamentalconstant.core.state.pojo.geometry.attr.DecimalValueValidator.*;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @JsonSerialize(using = Mass.MassSerializer.class)
-public class Mass extends DecimalValueValidator {
+public class Mass {
+
+    private static final DecimalValueValidator validator = POSITIVE_OR_ZERO;
 
     @NonNull
-    private final DecimalNumber value; --
+    private final DecimalNumber value;
 
     public Mass(@NonNull DecimalNumber value) {
-        this.value = cleanAndValidate(value);
+        this.value = validator.cleanAndValidate(value);
+    }
+
+    public Mass(String value) {
+        this.value = validator.cleanAndValidate(new DecimalNumber(value));
     }
 
     @Override
-    boolean validate(DecimalNumber value) {
-        return value.isBiggerOrEqualThan(ZERO);
+    public String toString() {
+        return value.toString();
     }
 
     public static class MassSerializer extends JsonSerializer<Mass> {
 
         @Override
-        public void serialize(Mass mass, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-            jgen.writeNumber(mass.getValue().getValue());
+        public void serialize(Mass obj, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+            jgen.writeString(obj.toString());
         }
     }
 }

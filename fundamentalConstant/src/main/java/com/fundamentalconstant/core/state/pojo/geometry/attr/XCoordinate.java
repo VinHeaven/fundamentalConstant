@@ -7,7 +7,7 @@ import java.math.*;
 @EqualsAndHashCode(callSuper = true)
 public class XCoordinate extends CartesianCoordinate {
 
-    public XCoordinate(BigInteger value) {
+    public XCoordinate(BigDecimal value) {
         super(value);
     }
 
@@ -23,7 +23,11 @@ public class XCoordinate extends CartesianCoordinate {
         super(value);
     }
 
-    public static XCoordinate of(BigInteger value) {
+    public XCoordinate(String value) {
+        super(value);
+    }
+
+    public static XCoordinate of(BigDecimal value) {
         return new XCoordinate(value);
     }
 

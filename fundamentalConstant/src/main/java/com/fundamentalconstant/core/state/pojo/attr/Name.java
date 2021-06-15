@@ -31,11 +31,16 @@ public abstract class Name extends StringValueValidator {
         return strip(value);
     }
 
+    @Override
+    public String toString() {
+        return value;
+    }
+
     public static class NameSerializer extends JsonSerializer<Name> {
 
         @Override
-        public void serialize(Name name, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-            jgen.writeString(name.getValue());
+        public void serialize(Name obj, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+            jgen.writeString(obj.toString());
         }
     }
 }

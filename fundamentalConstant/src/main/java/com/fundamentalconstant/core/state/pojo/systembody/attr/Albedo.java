@@ -8,30 +8,40 @@ import lombok.*;
 
 import java.io.*;
 
-import static com.fundamentalconstant.core.state.pojo.geometry.attr.DecimalNumber.*;
+import static com.fundamentalconstant.core.state.pojo.geometry.attr.DecimalValueValidator.*;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @JsonSerialize(using = Albedo.AlbedoSerializer.class)
-public class Albedo extends DecimalValueValidator {
+public class Albedo {
+
+    private static final DecimalValueValidator validator = ZERO_TO_ONE;
 
     @NonNull
     private final DecimalNumber value;
 
     public Albedo(@NonNull DecimalNumber value) {
-        this.value = cleanAndValidate(value);
+        this.value = validator.cleanAndValidate(value);
+    }
+
+    public Albedo(double value) {
+        this.value = validator.cleanAndValidate(new DecimalNumber(value));
+    }
+
+    public Albedo(String value) {
+        this.value = validator.cleanAndValidate(new DecimalNumber(value));
     }
 
     @Override
-    boolean validate(DecimalNumber value) {
-        return value.isBetween(ZERO, ONE);
+    public String toString() {
+        return value.toString();
     }
 
     public static class AlbedoSerializer extends JsonSerializer<Albedo> {
 
         @Override
-        public void serialize(Albedo albedo, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-            jgen.writeNumber(albedo.getValue().getValue());
+        public void serialize(Albedo obj, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+            jgen.writeString(obj.toString());
         }
     }
 }
