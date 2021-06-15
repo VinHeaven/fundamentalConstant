@@ -16,7 +16,7 @@ import static com.fundamentalconstant.core.state.pojo.geometry.attr.DecimalNumbe
 public class Mass extends DecimalValueValidator {
 
     @NonNull
-    private final DecimalNumber value;
+    private final DecimalNumber value; --
 
     public Mass(@NonNull DecimalNumber value) {
         this.value = cleanAndValidate(value);
