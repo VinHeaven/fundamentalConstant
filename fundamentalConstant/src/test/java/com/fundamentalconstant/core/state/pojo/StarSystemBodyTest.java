@@ -2,11 +2,14 @@ package com.fundamentalconstant.core.state.pojo;
 
 import com.fasterxml.jackson.core.*;
 import com.fundamentalconstant.core.*;
+import com.fundamentalconstant.core.logic.*;
 import com.fundamentalconstant.core.state.pojo.geometry.*;
 import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
 import com.fundamentalconstant.core.state.pojo.physics.*;
+import com.fundamentalconstant.core.state.pojo.system.*;
 import com.fundamentalconstant.core.state.pojo.systembody.*;
 import com.fundamentalconstant.core.state.pojo.systembody.attr.*;
+import com.fundamentalconstant.core.state.pojo.uuid.*;
 import lombok.*;
 import org.junit.jupiter.api.*;
 
@@ -92,4 +95,47 @@ class StarSystemBodyTest {
         var rad = new Radius(new Distance(new DecimalNumber(50)));
         System.out.println(rad);
     }
+
+    @Test
+    void bazgak() {
+        System.out.println(UUIDUtils.getUuid());
+    }
+
+    @SneakyThrows
+    @Test
+    void asdff() {
+        var system = RandomSystemGenerator.generate();
+
+        var om = ObjectMapperFactory.getMapper();
+        var json = om.writeValueAsString(system);
+        System.out.println(json);
+
+        var systemDes = om.readValue(json, StarSystem.class);
+        System.out.println(systemDes);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -26,11 +26,11 @@ public class IntegerNumber implements Comparable<IntegerNumber> {
     }
 
     public boolean equalTo(IntegerNumber integerNumber) {
-        return this.compareTo(integerNumber) > 0;
+        return this.compareTo(integerNumber) == 0;
     }
 
     public boolean greaterThan(IntegerNumber integerNumber) {
-        return this.compareTo(integerNumber) == 0;
+        return this.compareTo(integerNumber) > 0;
     }
 
     public boolean lessThan(IntegerNumber integerNumber) {

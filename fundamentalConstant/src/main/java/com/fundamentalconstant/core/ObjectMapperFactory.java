@@ -15,6 +15,7 @@ public class ObjectMapperFactory {
         om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NON_PRIVATE);
         om.registerModule(new ParameterNamesModule(JsonCreator.Mode.PROPERTIES));
+        om.enable(SerializationFeature.INDENT_OUTPUT);
         return om;
     }
 }

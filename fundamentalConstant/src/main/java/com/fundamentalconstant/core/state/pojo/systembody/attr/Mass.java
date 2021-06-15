@@ -7,6 +7,7 @@ import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
 import lombok.*;
 
 import java.io.*;
+import java.math.*;
 
 import static com.fundamentalconstant.core.state.pojo.geometry.attr.DecimalValueValidator.*;
 
@@ -22,6 +23,10 @@ public class Mass {
 
     public Mass(@NonNull DecimalNumber value) {
         this.value = validator.cleanAndValidate(value);
+    }
+
+    public Mass(@NonNull BigDecimal value) {
+        this.value = validator.cleanAndValidate(new DecimalNumber(value));
     }
 
     public Mass(String value) {

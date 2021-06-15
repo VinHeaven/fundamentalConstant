@@ -17,9 +17,23 @@ public class Position {
     @NonNull
     private final YCoordinate y;
 
-    @JsonCreator
     private Position(@NonNull BigDecimal x, @NonNull BigDecimal y) {
-        this.x = XCoordinate.of(x);
-        this.y = YCoordinate.of(y);
+        this.x = new XCoordinate(x);
+        this.y = new YCoordinate(y);
+    }
+
+    @JsonCreator
+    public Position(String x, String y) {
+        this.x = new XCoordinate(x);
+        this.y = new YCoordinate(y);
+    }
+
+    public Position(DecimalNumber x, DecimalNumber y) {
+        this.x = new XCoordinate(x);
+        this.y = new YCoordinate(y);
+    }
+
+    public Position add(Position position) {
+        return new Position(x.getValue().add(position.getX().getValue()), y.getValue().add(position.getY().getValue()));
     }
 }

@@ -1,11 +1,12 @@
 package com.fundamentalconstant;
 
 import com.fundamentalconstant.app.*;
+import com.fundamentalconstant.core.ui.root.*;
+import javafx.application.*;
 import org.apache.logging.log4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
-import org.springframework.boot.builder.*;
 
 @SpringBootApplication
 public class FundamentalConstantApplication implements ApplicationRunner {
@@ -16,9 +17,7 @@ public class FundamentalConstantApplication implements ApplicationRunner {
     private ApplicationRoot applicationRoot;
 
     public static void main(String[] args) {
-        new SpringApplicationBuilder(FundamentalConstantApplication.class)
-                .headless(false)
-                .run(args);
+        Application.launch(UiApplication.class, args);
     }
 
     @Override

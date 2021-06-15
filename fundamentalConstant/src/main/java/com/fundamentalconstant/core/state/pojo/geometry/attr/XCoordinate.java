@@ -27,6 +27,10 @@ public class XCoordinate extends CartesianCoordinate {
         super(value);
     }
 
+    public XCoordinate(DecimalNumber value) {
+        super(value);
+    }
+
     public static XCoordinate of(BigDecimal value) {
         return new XCoordinate(value);
     }

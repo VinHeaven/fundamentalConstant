@@ -2,7 +2,6 @@ package com.fundamentalconstant.app;
 
 import com.fundamentalconstant.core.logic.*;
 import com.fundamentalconstant.core.state.*;
-import com.fundamentalconstant.core.ui.*;
 import lombok.*;
 import lombok.extern.slf4j.*;
 import org.springframework.stereotype.*;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.*;
 @Component
 public class ApplicationRoot {
 
-    private final UiRoot uiRoot;
     private final StateRoot stateRoot;
     private final LogicRoot logicRoot;
 
@@ -21,6 +19,5 @@ public class ApplicationRoot {
 
         stateRoot.start();
         logicRoot.start();
-        uiRoot.start();
     }
 }

@@ -11,6 +11,8 @@ import lombok.extern.jackson.*;
 @Jacksonized
 public class StarSystem {
 
+    @NonNull
     private SystemName name;
+    @NonNull
     private Star star;
 }

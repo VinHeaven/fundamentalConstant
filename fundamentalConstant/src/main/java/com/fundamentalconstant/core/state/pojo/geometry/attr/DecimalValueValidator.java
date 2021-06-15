@@ -2,19 +2,21 @@ package com.fundamentalconstant.core.state.pojo.geometry.attr;
 
 import com.fundamentalconstant.core.state.pojo.exception.*;
 
+import static com.fundamentalconstant.core.state.pojo.geometry.attr.DecimalNumber.*;
+
 public class DecimalValueValidator {
 
     public static final DecimalValueValidator POSITIVE_OR_ZERO = new DecimalValueValidator() {
         @Override
         public boolean validate(DecimalNumber value) {
-            return value.greaterOrEqualTo(new DecimalNumber(0));
+            return value.greaterOrEqualTo(ZERO);
         }
     };
 
     public static final DecimalValueValidator ZERO_TO_ONE = new DecimalValueValidator() {
         @Override
         public boolean validate(DecimalNumber value) {
-            return value.isBetweenOrOn(new DecimalNumber(0), new DecimalNumber(1));
+            return value.isBetweenOrOn(ZERO, ONE);
         }
     };
 

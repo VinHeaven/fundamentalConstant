@@ -2,11 +2,14 @@ package com.fundamentalconstant.core.state.pojo.systembody;
 
 import com.fundamentalconstant.core.state.pojo.geometry.*;
 import com.fundamentalconstant.core.state.pojo.systembody.attr.*;
+import com.fundamentalconstant.core.state.pojo.uuid.*;
 import lombok.*;
 import lombok.experimental.*;
 import lombok.extern.jackson.*;
 
 import java.util.*;
+
+import static com.fundamentalconstant.core.state.pojo.geometry.attr.DecimalNumber.*;
 
 @Data
 @SuperBuilder
@@ -14,17 +17,24 @@ import java.util.*;
 public class SystemBody {
 
     @NonNull
+    @Builder.Default
+    private final UUID uuid = UUIDUtils.getUuid();
+    @NonNull
     private SystemBodyName name;
     @NonNull
-    private Position position;
+    @Builder.Default
+    private Position position = new Position(ZERO, ZERO);
 
     //Physical Properties
     @NonNull
-    private Radius radius;
+    @Builder.Default
+    private Radius radius = new Radius(ZERO);
     @NonNull
-    private Mass mass;
+    @Builder.Default
+    private Mass mass = new Mass(ZERO);
     @NonNull
-    private Albedo albedo;
+    @Builder.Default
+    private Albedo albedo = new Albedo(ZERO);
 
     //Orbital Properties
     @NonNull

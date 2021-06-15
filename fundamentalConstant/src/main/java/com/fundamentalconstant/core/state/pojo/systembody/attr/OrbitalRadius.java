@@ -3,6 +3,7 @@ package com.fundamentalconstant.core.state.pojo.systembody.attr;
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.annotation.*;
+import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
 import com.fundamentalconstant.core.state.pojo.physics.*;
 import lombok.*;
 
@@ -22,6 +23,14 @@ public class OrbitalRadius {
 
     public OrbitalRadius(String value) {
         this.value = new Distance(value);
+    }
+
+    public OrbitalRadius(DecimalNumber value) {
+        this.value = new Distance(value);
+    }
+
+    public OrbitalRadius(AU value) {
+        this.value = new Distance(value.getValue());
     }
 
     @Override

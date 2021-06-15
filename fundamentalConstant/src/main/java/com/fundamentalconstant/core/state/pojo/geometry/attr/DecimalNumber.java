@@ -9,12 +9,16 @@ import lombok.*;
 import java.io.*;
 import java.math.*;
 
+import static java.math.RoundingMode.*;
+
 @Data
 @JsonSerialize(using = DecimalNumber.DecimalNumberSerializer.class)
 public class DecimalNumber implements Comparable<DecimalNumber> {
 
+    public static final DecimalNumber ZERO = new DecimalNumber(0);
+    public static final DecimalNumber ONE = new DecimalNumber(1);
+
     private static final int DEFAULT_SCALE = 20;
-    private static final RoundingMode DEFAULT_ROUNDING_MODE = RoundingMode.HALF_UP;
 
     private static final int MAX_DOUBLE_PRECISION = 14;
 
@@ -37,20 +41,24 @@ public class DecimalNumber implements Comparable<DecimalNumber> {
         this.value = normalize(decimal);
     }
 
-    DecimalNumber(BigDecimal value) {
+    public DecimalNumber(BigDecimal value) {
         this.value = normalize(value);
     }
 
     private BigDecimal normalize(BigDecimal bigDecimal) {
-        return bigDecimal.setScale(DEFAULT_SCALE, DEFAULT_ROUNDING_MODE);
+        return bigDecimal.setScale(DEFAULT_SCALE, HALF_UP);
     }
 
     public boolean equalTo(DecimalNumber decimalNumber) {
-        return this.compareTo(decimalNumber) > 0;
+        return this.compareTo(decimalNumber) == 0;
+    }
+
+    public boolean notEqualTo(DecimalNumber decimalNumber) {
+        return this.compareTo(decimalNumber) != 0;
     }
 
     public boolean greaterThan(DecimalNumber decimalNumber) {
-        return this.compareTo(decimalNumber) == 0;
+        return this.compareTo(decimalNumber) > 0;
     }
 
     public boolean lessThan(DecimalNumber decimalNumber) {
@@ -86,7 +94,7 @@ public class DecimalNumber implements Comparable<DecimalNumber> {
     }
 
     public DecimalNumber divide(DecimalNumber decimalNumber) {
-        return new DecimalNumber(this.value.divide(decimalNumber.getValue(), DEFAULT_ROUNDING_MODE));
+        return new DecimalNumber(this.value.divide(decimalNumber.getValue(), HALF_UP));
     }
 
     @Override

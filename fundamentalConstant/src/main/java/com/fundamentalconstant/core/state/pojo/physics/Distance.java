@@ -3,12 +3,12 @@ package com.fundamentalconstant.core.state.pojo.physics;
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.annotation.*;
-import com.fundamentalconstant.core.state.pojo.exception.*;
 import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
 import com.fundamentalconstant.core.state.pojo.physics.units.*;
 import lombok.*;
 
 import java.io.*;
+import java.math.*;
 
 import static com.fundamentalconstant.core.state.pojo.geometry.attr.DecimalValueValidator.*;
 
@@ -19,24 +19,29 @@ public class Distance {
 
     private static final DecimalValueValidator validator = POSITIVE_OR_ZERO;
 
+    private static final DistanceUnit unit = DistanceUnit.M;
+
     @NonNull
-    //Distance in Meter
     private final DecimalNumber value;
 
     public Distance(@NonNull DecimalNumber value) {
         this.value = validator.cleanAndValidate(value);
     }
 
+    public Distance(BigDecimal value) {
+        this.value = validator.cleanAndValidate(new DecimalNumber(value));
+    }
+
     public Distance(String value) {
         this.value = validator.cleanAndValidate(new DecimalNumber(value));
     }
 
-    public DecimalNumber getDistance(DistanceUnit unit) {
-        return switch (unit) {
-            case M -> value;
-            case KM -> value.divide(new DecimalNumber(1000));
-            default -> throw new NoCaseDefinedException("Unexpected value: " + unit);
-        };
+    public DecimalNumber getDistance(DistanceUnit targetUnit) {
+        if (unit.equals(targetUnit)) {
+            return this.value;
+        }
+
+        return this.value.multiply(DistanceUnit.getFactor(unit, targetUnit));
     }
 
     @Override

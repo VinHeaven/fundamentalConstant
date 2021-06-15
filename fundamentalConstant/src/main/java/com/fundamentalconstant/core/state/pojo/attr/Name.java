@@ -7,28 +7,20 @@ import lombok.*;
 
 import java.io.*;
 
-import static org.apache.commons.lang3.StringUtils.*;
+import static com.fundamentalconstant.core.state.pojo.attr.StringValueValidator.*;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @JsonSerialize(using = Name.NameSerializer.class)
-public abstract class Name extends StringValueValidator {
+public abstract class Name {
+
+    private static final StringValueValidator validator = NOT_BLANK;
 
     @NonNull
     private final String value;
 
     public Name(@NonNull String value) {
-        this.value = cleanAndValidate(value);
-    }
-
-    @Override
-    boolean validate(String value) {
-        return isNotBlank(value);
-    }
-
-    @Override
-    String clean(String value) {
-        return strip(value);
+        this.value = validator.cleanAndValidate(value);
     }
 
     @Override

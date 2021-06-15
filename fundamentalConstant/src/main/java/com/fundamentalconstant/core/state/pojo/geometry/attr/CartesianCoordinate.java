@@ -35,6 +35,10 @@ public abstract class CartesianCoordinate {
         this.value = new DecimalNumber(value);
     }
 
+    public CartesianCoordinate(DecimalNumber value) {
+        this.value = value;
+    }
+
     public DecimalNumber getValue() {
         return value;
     }
