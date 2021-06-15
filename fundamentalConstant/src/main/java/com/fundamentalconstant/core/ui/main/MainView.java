@@ -7,6 +7,7 @@ import com.fundamentalconstant.core.ui.control.*;
 import com.fundamentalconstant.core.ui.system.*;
 import javafx.geometry.*;
 import javafx.scene.*;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.stage.*;
@@ -28,7 +29,26 @@ public class MainView {
         this.stage = stage;
 
         root = new AnchorPane();
+
+        SystemView systemView = SystemView.create(stateRoot);
+
         scene = new Scene(root, 500, 500, true, SceneAntialiasing.BALANCED);
+        scene.addEventFilter(ScrollEvent.ANY, event -> {
+
+            double delta = 1.2;
+
+            double scale = systemView.getScaleX();
+            if (event.getDeltaY() < 0) {
+                scale /= delta;
+            } else {
+                scale *= delta;
+            }
+
+            systemView.setScaleX(scale);
+            systemView.setScaleY(scale);
+
+            event.consume();
+        });
 
         JMetro jMetro = new JMetro(Style.LIGHT);
         jMetro.setScene(scene);
@@ -47,7 +67,7 @@ public class MainView {
         AnchorPane.setLeftAnchor(stack, 0.0);
 
         stack.getChildren().addAll(
-                SystemView.create(stateRoot),
+                systemView,
                 Controls.create()
         );
 

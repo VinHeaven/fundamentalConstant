@@ -23,12 +23,11 @@ import static com.fundamentalconstant.core.state.pojo.physics.units.DistanceUnit
 @Component
 public class LogicRoot {
 
+    private static final MathContext context = new MathContext(20);
     @Autowired
     private UiRoot uiRoot;
     @Autowired
     private StateRoot stateRoot;
-
-    private static final MathContext context = new MathContext(20);
 
     public void start() {
         log.info("{} startup", this.getClass().getSimpleName());
@@ -54,29 +53,28 @@ public class LogicRoot {
 
     private void setNewPosition(SystemBody systemBody, Position parentPosition) {
 
-        if (systemBody.getVelocity().getValue().greaterThan(ZERO) && systemBody.getOrbitalRadius().getValue().getDistance(M).greaterThan(ZERO)) {
+        if (systemBody.getVelocity().getValue().notEqualTo(ZERO) && systemBody.getOrbitalRadius().getValue().getDistance(M).notEqualTo(ZERO)) {
             DecimalNumber distanceTraveled = systemBody.getVelocity().getValue().multiply(new DecimalNumber(1 * 24 * 60 * 60));
 
             DecimalNumber orbitalRadius = systemBody.getOrbitalRadius().getValue().getDistance(M);
             BigDecimal radTravelled = distanceTraveled.divide(orbitalRadius).getValue();
 
-            Position currentPosition = systemBody.getPosition();
+            Position currentRelativePosition = systemBody.getRelativePosition();
             BigDecimal currentRad = BigDecimal.ZERO;
-            if (currentPosition.getX().getValue().notEqualTo(ZERO) && currentPosition.getY().getValue().notEqualTo(ZERO)) {
-                currentRad = BigDecimalMath.atan2(currentPosition.getY().getValue().getValue(), currentPosition.getX().getValue().getValue(), context);
+            if (currentRelativePosition.getX().getValue().notEqualTo(ZERO) && currentRelativePosition.getY().getValue().notEqualTo(ZERO)) {
+                currentRad = BigDecimalMath.atan2(currentRelativePosition.getY().getValue().getValue(), currentRelativePosition.getX().getValue().getValue(), context);
             }
             BigDecimal newRad = currentRad.add(radTravelled);
 
-            Position relativePosition = new Position(
+            Position newRelativePosition = new Position(
                     orbitalRadius.multiply(new DecimalNumber(String.valueOf(BigDecimalMath.cos(newRad, context)))),
                     orbitalRadius.multiply(new DecimalNumber(String.valueOf(BigDecimalMath.sin(newRad, context)))));
 
-            Position newPosition = parentPosition.add(relativePosition);
-
-            systemBody.setPosition(newPosition);
+            systemBody.setRelativePosition(newRelativePosition);
+            systemBody.setAbsolutePosition(parentPosition.add(newRelativePosition));
         }
 
-        systemBody.getChilds().forEach(c -> setNewPosition(c, systemBody.getPosition()));
+        systemBody.getChilds().forEach(c -> setNewPosition(c, systemBody.getAbsolutePosition()));
     }
 }
 

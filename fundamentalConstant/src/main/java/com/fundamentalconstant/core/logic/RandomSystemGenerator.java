@@ -38,6 +38,20 @@ public class RandomSystemGenerator {
                                         .name(new SystemBodyName("Earth"))
                                         .velocity(new Velocity("29800"))
                                         .orbitalRadius(new OrbitalRadius(new AU(1)))
+                                        .childs(Set.of(
+                                                SystemBody.builder()
+                                                        .name(new SystemBodyName("Luna"))
+                                                        .velocity(new Velocity("10000"))
+                                                        .orbitalRadius(new OrbitalRadius(new AU(0.3)))
+                                                        .childs(Set.of(
+                                                                SystemBody.builder()
+                                                                        .name(new SystemBodyName("Test"))
+                                                                        .velocity(new Velocity("4500"))
+                                                                        .orbitalRadius(new OrbitalRadius(new AU(0.2)))
+                                                                        .build()
+                                                        ))
+                                                        .build()
+                                        ))
                                         .build(),
                                 SystemBody.builder()
                                         .name(new SystemBodyName("Mars"))

@@ -15,7 +15,7 @@ import static com.fundamentalconstant.core.state.pojo.geometry.attr.DecimalValue
 @JsonSerialize(using = Velocity.VelocitySerializer.class)
 public class Velocity {
 
-    private static final DecimalValueValidator validator = POSITIVE_OR_ZERO;
+    private static final DecimalValueValidator validator = NONE;
 
     @NonNull
     private final DecimalNumber value;

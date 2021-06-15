@@ -23,7 +23,10 @@ public class SystemBody {
     private SystemBodyName name;
     @NonNull
     @Builder.Default
-    private Position position = new Position(ZERO, ZERO);
+    private Position relativePosition = new Position(ZERO, ZERO);
+    @NonNull
+    @Builder.Default
+    private Position absolutePosition = new Position(ZERO, ZERO);
 
     //Physical Properties
     @NonNull

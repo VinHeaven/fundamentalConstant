@@ -21,8 +21,8 @@ class StarSystemBodyTest {
     void test() throws JsonProcessingException {
         var om = ObjectMapperFactory.getMapper();
 
-        var body1 = SystemBody.builder().position(new Position(XCoordinate.of(5), YCoordinate.of(10))).name(new SystemBodyName("TestName")).build();
-        var body2 = SystemBody.builder().position(new Position(XCoordinate.of(5), YCoordinate.of(10))).name(new SystemBodyName("TestName")).build();
+        var body1 = SystemBody.builder().relativePosition(new Position(XCoordinate.of(5), YCoordinate.of(10))).name(new SystemBodyName("TestName")).build();
+        var body2 = SystemBody.builder().relativePosition(new Position(XCoordinate.of(5), YCoordinate.of(10))).name(new SystemBodyName("TestName")).build();
 
         assertEquals(body1, body2);
 
@@ -33,15 +33,15 @@ class StarSystemBodyTest {
 
         System.out.println(om.writeValueAsString(body3));
 
-        var body4 = SystemBody.builder().position(new Position(XCoordinate.of(6), YCoordinate.of(10))).name(new SystemBodyName("TestName")).build();
-        var body5 = SystemBody.builder().position(new Position(XCoordinate.of(5), YCoordinate.of(10))).name(new SystemBodyName("TestName")).build();
+        var body4 = SystemBody.builder().relativePosition(new Position(XCoordinate.of(6), YCoordinate.of(10))).name(new SystemBodyName("TestName")).build();
+        var body5 = SystemBody.builder().relativePosition(new Position(XCoordinate.of(5), YCoordinate.of(10))).name(new SystemBodyName("TestName")).build();
         assertNotEquals(body4, body5);
 
         new SystemBodyName("sdfgh");
 
         body5.addChild(
                 SystemBody.builder()
-                        .position(new Position(XCoordinate.of(6), YCoordinate.of(10)))
+                        .relativePosition(new Position(XCoordinate.of(6), YCoordinate.of(10)))
                         .name(new SystemBodyName("TestName"))
                         .build());
     }
@@ -54,7 +54,7 @@ class StarSystemBodyTest {
         var body = SystemBody.builder()
                 .name(new SystemBodyName("BodyName"))
                 .albedo(new Albedo("0.5"))
-                .position(new Position(new XCoordinate(15), new YCoordinate(20.123)))
+                .relativePosition(new Position(new XCoordinate(15), new YCoordinate(20.123)))
                 .mass(new Mass("500000.4"))
                 .orbitalRadius(new OrbitalRadius("150000000000"))
                 .radius(new Radius("6000000"))

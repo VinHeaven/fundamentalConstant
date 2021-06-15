@@ -20,6 +20,9 @@ public class DecimalValueValidator {
         }
     };
 
+    public static final DecimalValueValidator NONE = new DecimalValueValidator() {
+    };
+
     public DecimalNumber cleanAndValidate(DecimalNumber value) {
         value = clean(value);
         ValueNotValidException.throwIfNotValid(validate(value), value);

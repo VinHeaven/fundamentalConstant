@@ -36,4 +36,8 @@ public class Position {
     public Position add(Position position) {
         return new Position(x.getValue().add(position.getX().getValue()), y.getValue().add(position.getY().getValue()));
     }
+
+    public Position subtract(Position position) {
+        return new Position(x.getValue().subtract(position.getX().getValue()), y.getValue().subtract(position.getY().getValue()));
+    }
 }

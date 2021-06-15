@@ -13,6 +13,7 @@ import javafx.scene.transform.*;
 import java.math.*;
 import java.util.*;
 
+import static java.util.Objects.*;
 import static javafx.scene.paint.Color.*;
 
 public class SystemView extends Pane implements Updater {
@@ -37,53 +38,54 @@ public class SystemView extends Pane implements Updater {
 
         StarSystem starSystem = new ArrayList<>(stateRoot.getUniverse().getStarSystems()).get(0);
 
-        draw(starSystem.getStar(), origin);
+        draw(starSystem.getStar(), origin, null);
     }
 
-    private void draw(SystemBody systemBody, Point2D origin) {
+    private void draw(SystemBody systemBody, Point2D origin, SystemBody parent) {
 
+        var systemBodyDraw = drawSystemBody(systemBody, origin);
+        var orbitDraw = drawOrbit(systemBody, origin, parent);
+
+        this.getChildren().add(systemBodyDraw);
+        if (nonNull(orbitDraw)) {
+            this.getChildren().add(orbitDraw);
+        }
+        systemBody.getChilds().forEach(c -> draw(c, origin, systemBody));
+    }
+
+    private Circle drawSystemBody(SystemBody systemBody, Point2D origin) {
         Circle body = new Circle(0, 0, 3, BLACK);
         body.getTransforms().add(new Translate(-body.getRadius(), -body.getRadius()));
-        body.relocate(
-                scaleToScreen(systemBody.getPosition().getX(), origin.getX()),
-                scaleToScreen(systemBody.getPosition().getY(), origin.getY()));
-        this.getChildren().add(body);
 
-        systemBody.getChilds().forEach(c -> draw(c, origin));
+        body.relocate(
+                scaleToScreen(systemBody.getAbsolutePosition().getX(), origin.getX()),
+                scaleToScreen(systemBody.getAbsolutePosition().getY(), origin.getY()));
+        return body;
+    }
+
+    private Circle drawOrbit(SystemBody systemBody, Point2D origin, SystemBody parent) {
+        if (isNull(parent)) {
+            return null;
+        }
+
+        Circle orbit = new Circle(0, 0, scaleToScreen(systemBody.getOrbitalRadius().getValue().getValue()), TRANSPARENT);
+        orbit.getTransforms().add(new Translate(-orbit.getRadius(), -orbit.getRadius()));
+        orbit.setStrokeType(StrokeType.CENTERED);
+        orbit.setStroke(BLACK);
+        orbit.relocate(
+                scaleToScreen(parent.getAbsolutePosition().getX(), origin.getX()),
+                scaleToScreen(parent.getAbsolutePosition().getY(), origin.getY()));
+        return orbit;
     }
 
     private double scaleToScreen(CartesianCoordinate coordinate, double originCoordinate) {
-        return originCoordinate + coordinate.getValue().getValue().divide(new BigDecimal(150_000_000 * 3), RoundingMode.HALF_UP).doubleValue();
+        return originCoordinate + scaleToScreen(coordinate.getValue());
+    }
+
+    private double scaleToScreen(DecimalNumber coordinate) {
+        return coordinate.getValue().divide(new BigDecimal(150_000_000 * 3), RoundingMode.HALF_UP).doubleValue();
     }
 
     public void init() {
-
-        //        scene.addEventFilter(ScrollEvent.ANY, new EventHandler<ScrollEvent>() {
-        //
-        //            @Override
-        //            public void handle(ScrollEvent event) {
-        //
-        //                double delta = 1.2;
-        //
-        //                double scale = root.getScaleX();
-        //                if (event.getDeltaY() < 0) {
-        //                    scale /= delta;
-        //                } else {
-        //                    scale *= delta;
-        //                }
-        //                //
-        //                //                Scale newScale = new Scale();
-        //                //                newScale.setX(root.getScaleX() + );
-        //                //                newScale.setY(root.getScaleY() + event.getDeltaY()*mult);
-        //                //                newScale.setPivotX(root.getScaleX());
-        //                //                newScale.setPivotY(root.getScaleY());
-        //                //                root.getTransforms().add(newScale);
-        //
-        //                root.setScaleX(scale);
-        //                root.setScaleY(scale);
-        //
-        //                event.consume();
-        //            }
-        //        });
     }
 }
