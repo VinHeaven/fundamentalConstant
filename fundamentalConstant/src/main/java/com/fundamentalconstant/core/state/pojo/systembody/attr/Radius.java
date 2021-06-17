@@ -1,49 +1,34 @@
 package com.fundamentalconstant.core.state.pojo.systembody.attr;
 
-import com.fasterxml.jackson.core.*;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.annotation.*;
 import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
-import com.fundamentalconstant.core.state.pojo.physics.*;
+import com.fundamentalconstant.core.state.pojo.physics.units.*;
 import lombok.*;
 
-import java.io.*;
-import java.math.*;
+import javax.measure.*;
+import javax.measure.quantity.*;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@JsonSerialize(using = Radius.RadiusSerializer.class)
-public class Radius {
+import static tech.units.indriya.unit.Units.*;
 
-    @NonNull
-    private final Distance value;
+@EqualsAndHashCode(callSuper = true)
+public class Radius extends Distance {
 
-    public Radius(@NonNull Distance value) {
-        this.value = value;
+    public Radius(@NonNull Quantity<Length> length) {
+        super(length);
     }
 
-    public Radius(@NonNull BigDecimal value) {
-        this.value = new Distance(value);
+    public Radius(@NonNull DecimalNumber decimalNumber, @NonNull Unit<Length> lengthUnit) {
+        super(decimalNumber, lengthUnit);
     }
 
-    public Radius(@NonNull DecimalNumber value) {
-        this.value = new Distance(value);
+    public Radius(@NonNull String value, @NonNull Unit<Length> lengthUnit) {
+        super(value, lengthUnit);
     }
 
-    public Radius(String value) {
-        this.value = new Distance(value);
+    public Radius(@NonNull String quantity) {
+        super(quantity);
     }
 
-    @Override
-    public String toString() {
-        return value.toString();
-    }
-
-    public static class RadiusSerializer extends JsonSerializer<Radius> {
-
-        @Override
-        public void serialize(Radius obj, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-            jgen.writeString(obj.toString());
-        }
+    public static Radius zero() {
+        return new Radius("0", METRE);
     }
 }

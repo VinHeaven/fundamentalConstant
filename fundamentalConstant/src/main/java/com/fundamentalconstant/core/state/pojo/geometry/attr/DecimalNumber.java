@@ -73,6 +73,14 @@ public class DecimalNumber implements Comparable<DecimalNumber> {
         return this.compareTo(decimalNumber) <= 0;
     }
 
+    public boolean isZero() {
+        return this.equalTo(ZERO);
+    }
+
+    public boolean isNotZero() {
+        return this.notEqualTo(ZERO);
+    }
+
     public boolean isBetweenOrOn(DecimalNumber decimalNumber1, DecimalNumber decimalNumber2) {
         if (decimalNumber1.lessOrEqualTo(decimalNumber2)) {
             return this.greaterOrEqualTo(decimalNumber1) && this.lessOrEqualTo(decimalNumber2);

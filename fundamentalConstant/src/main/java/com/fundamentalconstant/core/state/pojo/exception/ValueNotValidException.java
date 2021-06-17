@@ -1,12 +1,8 @@
 package com.fundamentalconstant.core.state.pojo.exception;
 
-import com.fasterxml.jackson.core.*;
-import com.fasterxml.jackson.databind.*;
-import com.fundamentalconstant.core.*;
+import com.fundamentalconstant.core.utils.mapper.module.*;
 
 public class ValueNotValidException extends RuntimeException {
-
-    private static final ObjectMapper om = ObjectMapperFactory.getMapper();
 
     public ValueNotValidException() {
     }
@@ -21,11 +17,7 @@ public class ValueNotValidException extends RuntimeException {
 
     public static void throwIfNotValid(boolean valid, Object value) {
         if (!valid) {
-            try {
-                throw new ValueNotValidException(String.format("Value was not valid. Value: (%s)", om.writeValueAsString(value)));
-            } catch (JsonProcessingException e) {
-                throw new ProjectException(e);
-            }
+            throw new ValueNotValidException(String.format("Value was not valid. Value: (%s)", ObjectMapperInstance.write(value)));
         }
     }
 }

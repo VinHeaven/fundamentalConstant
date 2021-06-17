@@ -2,48 +2,21 @@ package com.fundamentalconstant.core.state.pojo.geometry.attr;
 
 import lombok.*;
 
-import java.math.*;
+import javax.measure.*;
+import javax.measure.quantity.*;
 
 @EqualsAndHashCode(callSuper = true)
 public class XCoordinate extends CartesianCoordinate {
 
-    public XCoordinate(BigDecimal value) {
-        super(value);
+    public XCoordinate(@NonNull Quantity<Length> length) {
+        super(length);
     }
 
-    public XCoordinate(int value) {
-        super(value);
+    public XCoordinate(@NonNull DecimalNumber decimalNumber, @NonNull Unit<Length> lengthUnit) {
+        super(decimalNumber, lengthUnit);
     }
 
-    public XCoordinate(long value) {
-        super(value);
-    }
-
-    public XCoordinate(double value) {
-        super(value);
-    }
-
-    public XCoordinate(String value) {
-        super(value);
-    }
-
-    public XCoordinate(DecimalNumber value) {
-        super(value);
-    }
-
-    public static XCoordinate of(BigDecimal value) {
-        return new XCoordinate(value);
-    }
-
-    public static XCoordinate of(int value) {
-        return new XCoordinate(value);
-    }
-
-    public static XCoordinate of(long value) {
-        return new XCoordinate(value);
-    }
-
-    public static XCoordinate of(double value) {
-        return new XCoordinate(value);
+    public XCoordinate(@NonNull String value, @NonNull Unit<Length> lengthUnit) {
+        super(value, lengthUnit);
     }
 }

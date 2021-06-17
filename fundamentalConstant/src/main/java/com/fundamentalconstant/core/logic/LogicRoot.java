@@ -1,22 +1,24 @@
 package com.fundamentalconstant.core.logic;
 
-import ch.obermuhlner.math.big.*;
 import com.fundamentalconstant.core.state.*;
 import com.fundamentalconstant.core.state.pojo.geometry.*;
-import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
+import com.fundamentalconstant.core.state.pojo.physics.units.*;
 import com.fundamentalconstant.core.state.pojo.system.*;
 import com.fundamentalconstant.core.state.pojo.systembody.*;
 import com.fundamentalconstant.core.ui.root.*;
+import com.fundamentalconstant.core.utils.mapper.module.*;
 import lombok.*;
 import lombok.extern.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
+import javax.measure.*;
+import javax.measure.quantity.*;
 import javax.swing.*;
 import java.math.*;
 
-import static com.fundamentalconstant.core.state.pojo.geometry.attr.DecimalNumber.*;
-import static com.fundamentalconstant.core.state.pojo.physics.units.DistanceUnit.*;
+import static com.fundamentalconstant.core.state.pojo.physics.units.Distance.*;
+import static tech.units.indriya.unit.Units.*;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -41,40 +43,45 @@ public class LogicRoot {
         uiRoot.refresh();
     }
 
+    @SneakyThrows
     public void move() {
         stateRoot.getUniverse().getStarSystems().forEach(this::moveStarSystem);
-
         refreshUi();
     }
 
     private void moveStarSystem(StarSystem starSystem) {
-        setNewPosition(starSystem.getStar(), new Position(ZERO, ZERO));
+        setNewPosition(starSystem.getStar(), new Position(zero().getQuantity(), zero().getQuantity()));
     }
 
     private void setNewPosition(SystemBody systemBody, Position parentPosition) {
 
-        if (systemBody.getVelocity().getValue().notEqualTo(ZERO) && systemBody.getOrbitalRadius().getValue().getDistance(M).notEqualTo(ZERO)) {
-            DecimalNumber distanceTraveled = systemBody.getVelocity().getValue().multiply(new DecimalNumber(1 * 24 * 60 * 60));
+        if (systemBodyMoves(systemBody)) {
 
-            DecimalNumber orbitalRadius = systemBody.getOrbitalRadius().getValue().getDistance(M);
-            BigDecimal radTravelled = distanceTraveled.divide(orbitalRadius).getValue();
+            var distanceTraveled = systemBody.getVelocity().getQuantity().multiply(QuantityHelper.createQuantity(1 * 24 * 60 * 60, SECOND));
 
-            Position currentRelativePosition = systemBody.getRelativePosition();
-            BigDecimal currentRad = BigDecimal.ZERO;
-            if (currentRelativePosition.getX().getValue().notEqualTo(ZERO) && currentRelativePosition.getY().getValue().notEqualTo(ZERO)) {
-                currentRad = BigDecimalMath.atan2(currentRelativePosition.getY().getValue().getValue(), currentRelativePosition.getX().getValue().getValue(), context);
-            }
-            BigDecimal newRad = currentRad.add(radTravelled);
+            var orbitalRadius = systemBody.getOrbitalRadius().getQuantity();
+            var radTravelled = distanceTraveled.divide(orbitalRadius).asType(Angle.class);
+
+            Quantity<Angle> currentRad = systemBody.getCurrentRadian().getQuantity();
+
+            var newRad = currentRad.add(radTravelled);
+            systemBody.setCurrentRadian(new Radian(newRad));
+            var radNormalized = newRad.to(RADIAN).getValue().doubleValue();
 
             Position newRelativePosition = new Position(
-                    orbitalRadius.multiply(new DecimalNumber(String.valueOf(BigDecimalMath.cos(newRad, context)))),
-                    orbitalRadius.multiply(new DecimalNumber(String.valueOf(BigDecimalMath.sin(newRad, context)))));
+                    orbitalRadius.multiply(Math.cos(radNormalized)),
+                    orbitalRadius.multiply(Math.sin(radNormalized))
+            );
 
             systemBody.setRelativePosition(newRelativePosition);
             systemBody.setAbsolutePosition(parentPosition.add(newRelativePosition));
         }
 
         systemBody.getChilds().forEach(c -> setNewPosition(c, systemBody.getAbsolutePosition()));
+    }
+
+    private boolean systemBodyMoves(SystemBody systemBody) {
+        return systemBody.getVelocity().isNotZero();
     }
 }
 

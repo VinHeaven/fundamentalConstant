@@ -5,6 +5,7 @@ import com.fundamentalconstant.core.state.*;
 import com.fundamentalconstant.core.ui.*;
 import com.fundamentalconstant.core.ui.control.*;
 import com.fundamentalconstant.core.ui.system.*;
+import javafx.beans.property.*;
 import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.input.*;
@@ -25,27 +26,24 @@ public class MainView {
     private AnchorPane root;
     private StackPane stack;
 
+    private DoubleProperty scaleValue = new SimpleDoubleProperty(1d);
+
     public void init(Stage stage) {
         this.stage = stage;
 
         root = new AnchorPane();
 
-        SystemView systemView = SystemView.create(stateRoot);
+        SystemView systemView = SystemView.create(stateRoot, scaleValue);
 
         scene = new Scene(root, 500, 500, true, SceneAntialiasing.BALANCED);
         scene.addEventFilter(ScrollEvent.ANY, event -> {
-
             double delta = 1.2;
 
-            double scale = systemView.getScaleX();
             if (event.getDeltaY() < 0) {
-                scale /= delta;
+                scaleValue.set(scaleValue.get() / delta);
             } else {
-                scale *= delta;
+                scaleValue.set(scaleValue.get() * delta);
             }
-
-            systemView.setScaleX(scale);
-            systemView.setScaleY(scale);
 
             event.consume();
         });

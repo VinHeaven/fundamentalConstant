@@ -117,6 +117,21 @@
             <artifactId>big-math</artifactId>
             <version>2.3.0</version>
         </dependency>
+        <dependency>
+            <groupId>tech.units</groupId>
+            <artifactId>indriya</artifactId>
+            <version>2.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>tech.uom.lib</groupId>
+            <artifactId>uom-lib-jackson</artifactId>
+            <version>2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>si.uom</groupId>
+            <artifactId>si-units</artifactId>
+            <version>2.1</version>
+        </dependency>
 
         <!-- TEST -->
         <dependency>

@@ -1,6 +1,7 @@
-package com.fundamentalconstant.core.state.pojo.geometry.attr;
+package com.fundamentalconstant.core.state.pojo.physics.units;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
 import com.fundamentalconstant.core.utils.mapper.module.*;
 import lombok.*;
 
@@ -13,28 +14,32 @@ import static com.fundamentalconstant.core.state.pojo.physics.QuantityUtils.*;
 import static tech.units.indriya.unit.Units.*;
 
 @EqualsAndHashCode
-public class CartesianCoordinate {
+public class Distance {
 
-    private static final DecimalValueValidator validator = NONE;
+    private static final DecimalValueValidator validator = POSITIVE_OR_ZERO;
 
     @NonNull
     @JsonValue
     private final Quantity<Length> value;
 
-    public CartesianCoordinate(@NonNull Quantity<Length> length) {
-        this.value = normalize(length, validator);
+    public Distance(@NonNull Quantity<Length> value) {
+        this.value = normalize(value, validator);
     }
 
-    public CartesianCoordinate(@NonNull DecimalNumber decimalNumber, @NonNull Unit<Length> lengthUnit) {
+    public Distance(@NonNull DecimalNumber decimalNumber, @NonNull Unit<Length> lengthUnit) {
         this.value = normalize(decimalNumber, lengthUnit, validator);
     }
 
-    public CartesianCoordinate(@NonNull String value, @NonNull Unit<Length> lengthUnit) {
+    public Distance(@NonNull String value, @NonNull Unit<Length> lengthUnit) {
         this.value = normalize(new DecimalNumber(value), lengthUnit, validator);
     }
 
-    public static CartesianCoordinate zero() {
-        return new CartesianCoordinate("0", METRE);
+    public Distance(@NonNull String quantity) {
+        this.value = normalize(QuantityHelper.createQuantity(quantity), validator);
+    }
+
+    public static Distance zero() {
+        return new Distance("0", METRE);
     }
 
     public boolean isNotZero() {

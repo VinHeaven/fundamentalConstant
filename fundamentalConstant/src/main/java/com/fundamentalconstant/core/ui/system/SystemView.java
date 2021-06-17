@@ -2,30 +2,39 @@ package com.fundamentalconstant.core.ui.system;
 
 import com.fundamentalconstant.core.state.*;
 import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
+import com.fundamentalconstant.core.state.pojo.physics.units.*;
 import com.fundamentalconstant.core.state.pojo.system.*;
 import com.fundamentalconstant.core.state.pojo.systembody.*;
 import com.fundamentalconstant.core.ui.*;
+import javafx.beans.property.*;
 import javafx.geometry.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.*;
 import javafx.scene.transform.*;
 
+import javax.measure.*;
+import javax.measure.quantity.*;
 import java.math.*;
 import java.util.*;
 
 import static java.util.Objects.*;
 import static javafx.scene.paint.Color.*;
+import static tech.units.indriya.unit.Units.*;
 
 public class SystemView extends Pane implements Updater {
 
-    private StateRoot stateRoot;
+    private static BigDecimal scaleToScreen = new BigDecimal(150_000_000 * 10);
 
-    public SystemView(StateRoot stateRoot) {
+    private StateRoot stateRoot;
+    private DoubleProperty scaleValue;
+
+    public SystemView(StateRoot stateRoot, DoubleProperty scaleValue) {
         this.stateRoot = stateRoot;
+        this.scaleValue = scaleValue;
     }
 
-    public static SystemView create(StateRoot stateRoot) {
-        var systemView = new SystemView(stateRoot);
+    public static SystemView create(StateRoot stateRoot, DoubleProperty scaleValue) {
+        var systemView = new SystemView(stateRoot, scaleValue);
         systemView.init();
         return systemView;
     }
@@ -58,8 +67,8 @@ public class SystemView extends Pane implements Updater {
         body.getTransforms().add(new Translate(-body.getRadius(), -body.getRadius()));
 
         body.relocate(
-                scaleToScreen(systemBody.getAbsolutePosition().getX(), origin.getX()),
-                scaleToScreen(systemBody.getAbsolutePosition().getY(), origin.getY()));
+                calculateScreenPosition(systemBody.getAbsolutePosition().getX(), origin.getX()),
+                calculateScreenPosition(systemBody.getAbsolutePosition().getY(), origin.getY()));
         return body;
     }
 
@@ -68,22 +77,27 @@ public class SystemView extends Pane implements Updater {
             return null;
         }
 
-        Circle orbit = new Circle(0, 0, scaleToScreen(systemBody.getOrbitalRadius().getValue().getValue()), TRANSPARENT);
+        Circle orbit = new Circle(0, 0, scaleToScreen(systemBody.getOrbitalRadius()), TRANSPARENT);
         orbit.getTransforms().add(new Translate(-orbit.getRadius(), -orbit.getRadius()));
         orbit.setStrokeType(StrokeType.CENTERED);
         orbit.setStroke(BLACK);
+
         orbit.relocate(
-                scaleToScreen(parent.getAbsolutePosition().getX(), origin.getX()),
-                scaleToScreen(parent.getAbsolutePosition().getY(), origin.getY()));
+                calculateScreenPosition(parent.getAbsolutePosition().getX(), origin.getX()),
+                calculateScreenPosition(parent.getAbsolutePosition().getY(), origin.getY()));
         return orbit;
     }
 
-    private double scaleToScreen(CartesianCoordinate coordinate, double originCoordinate) {
-        return originCoordinate + scaleToScreen(coordinate.getValue());
+    private double calculateScreenPosition(CartesianCoordinate coordinate, double originCoordinate) {
+        return originCoordinate + scaleToScreen(coordinate.getQuantity());
     }
 
-    private double scaleToScreen(DecimalNumber coordinate) {
-        return coordinate.getValue().divide(new BigDecimal(150_000_000 * 3), RoundingMode.HALF_UP).doubleValue();
+    private double scaleToScreen(Distance distance) {
+        return scaleToScreen(distance.getQuantity());
+    }
+
+    private double scaleToScreen(Quantity<Length> length) {
+        return length.to(METRE).divide(scaleToScreen).to(METRE).getValue().doubleValue() * scaleValue.doubleValue();
     }
 
     public void init() {

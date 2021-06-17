@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.*;
 import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
 import lombok.*;
 
-import java.math.*;
+import javax.measure.*;
+import javax.measure.quantity.*;
 
 @Data
-@AllArgsConstructor
 @Builder
 public class Position {
 
@@ -17,27 +17,28 @@ public class Position {
     @NonNull
     private final YCoordinate y;
 
-    private Position(@NonNull BigDecimal x, @NonNull BigDecimal y) {
-        this.x = new XCoordinate(x);
-        this.y = new YCoordinate(y);
+    public Position(@NonNull XCoordinate x, @NonNull YCoordinate y) {
+        this.x = x;
+        this.y = y;
     }
 
     @JsonCreator
-    public Position(String x, String y) {
-        this.x = new XCoordinate(x);
-        this.y = new YCoordinate(y);
-    }
-
-    public Position(DecimalNumber x, DecimalNumber y) {
+    public Position(@NonNull Quantity<Length> x, @NonNull Quantity<Length> y) {
         this.x = new XCoordinate(x);
         this.y = new YCoordinate(y);
     }
 
     public Position add(Position position) {
-        return new Position(x.getValue().add(position.getX().getValue()), y.getValue().add(position.getY().getValue()));
+        return new Position(
+                x.add(position.getX().getQuantity()),
+                y.add(position.getY().getQuantity())
+        );
     }
 
     public Position subtract(Position position) {
-        return new Position(x.getValue().subtract(position.getX().getValue()), y.getValue().subtract(position.getY().getValue()));
+        return new Position(
+                x.subtract(position.getX().getQuantity()),
+                y.subtract(position.getY().getQuantity())
+        );
     }
 }

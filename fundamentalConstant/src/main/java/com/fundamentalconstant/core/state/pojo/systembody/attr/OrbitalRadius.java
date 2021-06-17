@@ -1,48 +1,33 @@
 package com.fundamentalconstant.core.state.pojo.systembody.attr;
 
-import com.fasterxml.jackson.core.*;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.annotation.*;
 import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
-import com.fundamentalconstant.core.state.pojo.physics.*;
 import lombok.*;
 
-import java.io.*;
+import javax.measure.*;
+import javax.measure.quantity.*;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@JsonSerialize(using = OrbitalRadius.OrbitalRadiusSerializer.class)
-public class OrbitalRadius {
+import static tech.units.indriya.unit.Units.*;
 
-    @NonNull
-    private final Distance value;
+@EqualsAndHashCode(callSuper = true)
+public class OrbitalRadius extends Radius {
 
-    public OrbitalRadius(@NonNull Distance value) {
-        this.value = value;
+    public OrbitalRadius(@NonNull Quantity<Length> length) {
+        super(length);
     }
 
-    public OrbitalRadius(String value) {
-        this.value = new Distance(value);
+    public OrbitalRadius(@NonNull DecimalNumber decimalNumber, @NonNull Unit<Length> lengthUnit) {
+        super(decimalNumber, lengthUnit);
     }
 
-    public OrbitalRadius(DecimalNumber value) {
-        this.value = new Distance(value);
+    public OrbitalRadius(@NonNull String value, @NonNull Unit<Length> lengthUnit) {
+        super(value, lengthUnit);
     }
 
-    public OrbitalRadius(AU value) {
-        this.value = new Distance(value.getValue());
+    public OrbitalRadius(@NonNull String quantity) {
+        super(quantity);
     }
 
-    @Override
-    public String toString() {
-        return value.toString();
-    }
-
-    public static class OrbitalRadiusSerializer extends JsonSerializer<OrbitalRadius> {
-
-        @Override
-        public void serialize(OrbitalRadius obj, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-            jgen.writeString(obj.toString());
-        }
+    public static OrbitalRadius zero() {
+        return new OrbitalRadius("0", METRE);
     }
 }

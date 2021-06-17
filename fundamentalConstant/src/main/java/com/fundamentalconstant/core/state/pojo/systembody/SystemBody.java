@@ -1,6 +1,7 @@
 package com.fundamentalconstant.core.state.pojo.systembody;
 
 import com.fundamentalconstant.core.state.pojo.geometry.*;
+import com.fundamentalconstant.core.state.pojo.physics.units.*;
 import com.fundamentalconstant.core.state.pojo.systembody.attr.*;
 import com.fundamentalconstant.core.state.pojo.uuid.*;
 import lombok.*;
@@ -9,7 +10,7 @@ import lombok.extern.jackson.*;
 
 import java.util.*;
 
-import static com.fundamentalconstant.core.state.pojo.geometry.attr.DecimalNumber.*;
+import static com.fundamentalconstant.core.state.pojo.physics.units.Distance.*;
 
 @Data
 @SuperBuilder
@@ -23,27 +24,33 @@ public class SystemBody {
     private SystemBodyName name;
     @NonNull
     @Builder.Default
-    private Position relativePosition = new Position(ZERO, ZERO);
+    private Position relativePosition = new Position(zero().getQuantity(), zero().getQuantity());
     @NonNull
     @Builder.Default
-    private Position absolutePosition = new Position(ZERO, ZERO);
+    private Position absolutePosition = new Position(zero().getQuantity(), zero().getQuantity());
+
 
     //Physical Properties
     @NonNull
     @Builder.Default
-    private Radius radius = new Radius(ZERO);
+    private Radius radius = Radius.zero();
     @NonNull
     @Builder.Default
-    private Mass mass = new Mass(ZERO);
+    private Mass mass = Mass.zero();
     @NonNull
     @Builder.Default
-    private Albedo albedo = new Albedo(ZERO);
+    private Albedo albedo = Albedo.zero();
 
     //Orbital Properties
     @NonNull
-    private Velocity velocity;
+    @Builder.Default
+    private Velocity velocity = Velocity.zero();
     @NonNull
-    private OrbitalRadius orbitalRadius;
+    @Builder.Default
+    private OrbitalRadius orbitalRadius = OrbitalRadius.zero();
+    @NonNull
+    @Builder.Default
+    private Radian currentRadian = Radian.zero();
 
     @NonNull
     @Builder.Default

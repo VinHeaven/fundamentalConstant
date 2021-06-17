@@ -2,48 +2,21 @@ package com.fundamentalconstant.core.state.pojo.geometry.attr;
 
 import lombok.*;
 
-import java.math.*;
+import javax.measure.*;
+import javax.measure.quantity.*;
 
 @EqualsAndHashCode(callSuper = true)
 public class YCoordinate extends CartesianCoordinate {
 
-    public YCoordinate(BigDecimal value) {
-        super(value);
+    public YCoordinate(@NonNull Quantity<Length> length) {
+        super(length);
     }
 
-    public YCoordinate(int value) {
-        super(value);
+    public YCoordinate(@NonNull DecimalNumber decimalNumber, @NonNull Unit<Length> lengthUnit) {
+        super(decimalNumber, lengthUnit);
     }
 
-    public YCoordinate(long value) {
-        super(value);
-    }
-
-    public YCoordinate(double value) {
-        super(value);
-    }
-
-    public YCoordinate(String value) {
-        super(value);
-    }
-
-    public YCoordinate(DecimalNumber value) {
-        super(value);
-    }
-
-    public static YCoordinate of(BigDecimal value) {
-        return new YCoordinate(value);
-    }
-
-    public static YCoordinate of(int value) {
-        return new YCoordinate(value);
-    }
-
-    public static YCoordinate of(long value) {
-        return new YCoordinate(value);
-    }
-
-    public static YCoordinate of(double value) {
-        return new YCoordinate(value);
+    public YCoordinate(@NonNull String value, @NonNull Unit<Length> lengthUnit) {
+        super(value, lengthUnit);
     }
 }
