@@ -1,7 +1,8 @@
 package com.fundamentalconstant.core.state.pojo.geometry.attr;
 
 import com.fasterxml.jackson.annotation.*;
-import com.fundamentalconstant.core.utils.mapper.module.*;
+import com.fundamentalconstant.core.utils.*;
+import com.fundamentalconstant.core.utils.mapper.*;
 import lombok.*;
 
 import javax.measure.*;

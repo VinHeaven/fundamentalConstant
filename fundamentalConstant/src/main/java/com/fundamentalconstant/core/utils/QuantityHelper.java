@@ -1,4 +1,4 @@
-package com.fundamentalconstant.core.utils.mapper.module;
+package com.fundamentalconstant.core.utils;
 
 import tech.units.indriya.*;
 import tech.units.indriya.format.*;

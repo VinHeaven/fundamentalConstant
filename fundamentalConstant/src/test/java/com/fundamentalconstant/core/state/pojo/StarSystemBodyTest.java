@@ -10,7 +10,8 @@ import com.fundamentalconstant.core.state.pojo.system.*;
 import com.fundamentalconstant.core.state.pojo.systembody.*;
 import com.fundamentalconstant.core.state.pojo.systembody.attr.*;
 import com.fundamentalconstant.core.state.pojo.uuid.*;
-import com.fundamentalconstant.core.utils.mapper.module.*;
+import com.fundamentalconstant.core.utils.*;
+import com.fundamentalconstant.core.utils.mapper.*;
 import lombok.*;
 import org.junit.jupiter.api.*;
 import org.junit.platform.commons.util.*;
@@ -20,6 +21,7 @@ import javax.measure.*;
 import javax.measure.quantity.*;
 import java.math.*;
 
+import static com.fundamentalconstant.core.state.pojo.physics.units.Units.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static si.uom.SI.*;
 import static tech.units.indriya.AbstractUnit.*;
@@ -31,7 +33,7 @@ class StarSystemBodyTest {
         var body1 = SystemBody.builder().relativePosition(new Position(new XCoordinate("5", METRE), new YCoordinate("5", METRE))).name(new SystemBodyName("TestName")).build();
         var body2 = SystemBody.builder().relativePosition(new Position(new XCoordinate("5", METRE), new YCoordinate("5", METRE))).name(new SystemBodyName("TestName")).build();
 
-        assertEquals(body1, body2);
+        assertNotEquals(body1, body2);
 
         var json = ObjectMapperInstance.write(body1);
         System.out.println(json);
@@ -135,6 +137,13 @@ class StarSystemBodyTest {
 
         var distDes = ObjectMapperInstance.read(json, Distance.class);
         System.out.println(distDes);
+    }
+
+    @SneakyThrows
+    @Test
+    void asdffxxxffff() {
+        var dist = QuantityHelper.createQuantity(100, KILOMETRE_PER_SECOND);
+        System.out.println(ObjectMapperInstance.write(dist));
     }
 
     @SneakyThrows

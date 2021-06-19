@@ -1,10 +1,11 @@
 package com.fundamentalconstant.core.state.pojo.physics;
 
 import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
-import com.fundamentalconstant.core.utils.mapper.module.*;
 import lombok.*;
 
 import javax.measure.*;
+
+import static com.fundamentalconstant.core.utils.QuantityHelper.*;
 
 public class QuantityUtils {
 
@@ -18,6 +19,6 @@ public class QuantityUtils {
 
     @SuppressWarnings("all")
     public static Quantity normalize(@NonNull DecimalNumber decimalNumber, @NonNull Unit<?> unit, @NonNull DecimalValueValidator validator) {
-        return QuantityHelper.createQuantity(validator.cleanAndValidate(decimalNumber).getValue(), unit);
+        return createQuantity(validator.cleanAndValidate(decimalNumber).getValue(), unit);
     }
 }

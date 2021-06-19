@@ -3,6 +3,7 @@ package com.fundamentalconstant.core.utils.mapper.module;
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.*;
+import com.fundamentalconstant.core.utils.*;
 
 import javax.measure.*;
 import java.io.*;

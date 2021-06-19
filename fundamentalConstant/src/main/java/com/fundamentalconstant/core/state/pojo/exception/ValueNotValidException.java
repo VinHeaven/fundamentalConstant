@@ -1,6 +1,6 @@
 package com.fundamentalconstant.core.state.pojo.exception;
 
-import com.fundamentalconstant.core.utils.mapper.module.*;
+import com.fundamentalconstant.core.utils.mapper.*;
 
 public class ValueNotValidException extends RuntimeException {
 

@@ -1,6 +1,4 @@
-package com.fundamentalconstant.core.utils.mapper.module;
-
-import com.fundamentalconstant.core.utils.mapper.*;
+package com.fundamentalconstant.core.utils.mapper;
 
 import static java.util.Objects.*;
 

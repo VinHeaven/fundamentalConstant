@@ -1,7 +1,6 @@
-package com.fundamentalconstant.core.state.pojo.physics;
+package com.fundamentalconstant.core.state.pojo.geometry.attr;
 
 import com.fundamentalconstant.core.state.pojo.exception.*;
-import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
 
 public abstract class IntegerValueValidator {
 

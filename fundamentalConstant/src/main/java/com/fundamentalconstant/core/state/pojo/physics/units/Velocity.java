@@ -2,7 +2,8 @@ package com.fundamentalconstant.core.state.pojo.physics.units;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
-import com.fundamentalconstant.core.utils.mapper.module.*;
+import com.fundamentalconstant.core.utils.*;
+import com.fundamentalconstant.core.utils.mapper.*;
 import lombok.*;
 
 import javax.measure.*;
@@ -15,7 +16,7 @@ import static tech.units.indriya.unit.Units.*;
 @EqualsAndHashCode
 public class Velocity {
 
-    private static final DecimalValueValidator validator = NONE;
+    private static final DecimalValueValidator validator = POSITIVE_OR_ZERO;
 
     @NonNull
     @JsonValue
