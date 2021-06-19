@@ -41,15 +41,8 @@ public class RandomSystemGenerator {
                                         .childs(Set.of(
                                                 SystemBody.builder()
                                                         .name(new SystemBodyName("Luna"))
-                                                        .velocity(new Velocity("10", KILOMETRE_PER_SECOND))
-                                                        .orbitalRadius(new OrbitalRadius("0.3", ASTRONOMICAL_UNIT))
-                                                        .childs(Set.of(
-                                                                SystemBody.builder()
-                                                                        .name(new SystemBodyName("Test"))
-                                                                        .velocity(new Velocity("4.5", KILOMETRE_PER_SECOND))
-                                                                        .orbitalRadius(new OrbitalRadius("0.2", ASTRONOMICAL_UNIT))
-                                                                        .build()
-                                                        ))
+                                                        .velocity(new Velocity("1.022", KILOMETRE_PER_SECOND))
+                                                        .orbitalRadius(new OrbitalRadius("384400", KILOMETRE))
                                                         .build()
                                         ))
                                         .build(),
