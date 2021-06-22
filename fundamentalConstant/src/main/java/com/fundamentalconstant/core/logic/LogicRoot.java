@@ -15,7 +15,6 @@ import org.springframework.stereotype.*;
 import javax.measure.*;
 import javax.measure.quantity.*;
 import javax.swing.*;
-import java.math.*;
 
 import static com.fundamentalconstant.core.state.pojo.physics.units.Distance.*;
 import static tech.units.indriya.unit.Units.*;
@@ -25,7 +24,6 @@ import static tech.units.indriya.unit.Units.*;
 @Component
 public class LogicRoot {
 
-    private static final MathContext context = new MathContext(20);
     @Autowired
     private UiRoot uiRoot;
     @Autowired
