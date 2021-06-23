@@ -7,6 +7,8 @@ import lombok.*;
 import javax.measure.*;
 import javax.measure.quantity.*;
 
+import static tech.units.indriya.unit.Units.*;
+
 @Data
 @Builder
 public class Position {
@@ -20,6 +22,11 @@ public class Position {
     public Position(@NonNull XCoordinate x, @NonNull YCoordinate y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Position(@NonNull Double x, @NonNull Double y) {
+        this.x = new XCoordinate(x.toString(), METRE);
+        this.y = new YCoordinate(y.toString(), METRE);
     }
 
     @JsonCreator

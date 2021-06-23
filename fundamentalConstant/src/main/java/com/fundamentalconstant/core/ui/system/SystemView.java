@@ -1,6 +1,7 @@
 package com.fundamentalconstant.core.ui.system;
 
 import com.fundamentalconstant.core.state.*;
+import com.fundamentalconstant.core.state.pojo.geometry.*;
 import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
 import com.fundamentalconstant.core.state.pojo.physics.units.*;
 import com.fundamentalconstant.core.state.pojo.system.*;
@@ -8,8 +9,10 @@ import com.fundamentalconstant.core.state.pojo.systembody.*;
 import com.fundamentalconstant.core.ui.*;
 import com.fundamentalconstant.core.ui.utils.*;
 import javafx.geometry.*;
+import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.*;
+import javafx.scene.text.*;
 import javafx.scene.transform.*;
 
 import javax.measure.*;
@@ -25,8 +28,8 @@ import static tech.units.indriya.unit.Units.*;
 public class SystemView extends BorderPane implements Updater {
 
     private static BigDecimal scaleToScreen = new BigDecimal(150_000_000 * 10);
-    private Pane root;
     double oldScale = 1;
+    private Pane root;
     private UUID focusedUiid = null;
     private Circle focusedObject = null;
     private StateRoot stateRoot;
@@ -149,24 +152,32 @@ public class SystemView extends BorderPane implements Updater {
 
     private void draw(SystemBody systemBody, Point2D origin, SystemBody parent) {
 
-        var systemBodyDraw = drawSystemBody(systemBody, origin);
-        var orbitDraw = drawOrbit(systemBody, origin, parent);
+        var systemBodyDrawn = drawSystemBody(systemBody, origin);
+        var orbitDrawn = drawOrbit(systemBody, origin, parent);
 
-        root.getChildren().add(systemBodyDraw);
-        if (nonNull(orbitDraw)) {
-            root.getChildren().add(orbitDraw);
-        }
+        List<Node> objectsToDraw = List.of(
+                systemBodyDrawn,
+                orbitDrawn);
+
+        hideObjectsIfToCloseToParent(systemBody, objectsToDraw);
+
+        root.getChildren().addAll(objectsToDraw);
+
         systemBody.getChilds().forEach(c -> draw(c, origin, systemBody));
     }
 
-    private Circle drawSystemBody(SystemBody systemBody, Point2D origin) {
-        Circle body = new Circle(0, 0, 10, BLACK);
-        body.getTransforms().add(new Translate(-body.getRadius(), -body.getRadius()));
+    private void hideObjectsIfToCloseToParent(SystemBody systemBody, List<Node> objectsToDraw) {
+        Distance distanceBetweenChildAndParent = new Distance(systemBody.getOrbitalRadius().getQuantity());
+        if (scaleToScreen(distanceBetweenChildAndParent) < 5) {
+            objectsToDraw.forEach(n -> n.setVisible(false));
+        }
+    }
 
-        body.relocate(
-                calculateScreenPosition(systemBody.getAbsolutePosition().getX(), origin.getX()),
-                calculateScreenPosition(systemBody.getAbsolutePosition().getY(), origin.getY()));
+    private Pane drawSystemBody(SystemBody systemBody, Point2D origin) {
+        double bodyRadiusInPixel = 7;
+        Pane pane = new Pane();
 
+        Circle body = new Circle(0, 0, bodyRadiusInPixel, BLACK);
         body.setOnMousePressed(event -> {
             focusedUiid = systemBody.getUuid();
             focusedObject = body;
@@ -176,23 +187,31 @@ public class SystemView extends BorderPane implements Updater {
             focusedObject = body;
         }
 
-        return body;
+        pane.getChildren().add(body);
+
+        Text name = new Text(systemBody.getName().getValue());
+        name.getTransforms().add(new Translate(-name.getBoundsInLocal().getWidth() / 2, bodyRadiusInPixel * 2));
+        pane.getChildren().add(name);
+
+        pane.relocate(
+                calculateScreenPosition(systemBody.getAbsolutePosition().getX(), origin.getX()),
+                calculateScreenPosition(systemBody.getAbsolutePosition().getY(), origin.getY()));
+
+        return pane;
     }
 
     private Circle drawOrbit(SystemBody systemBody, Point2D origin, SystemBody parent) {
-        if (isNull(parent)) {
-            return null;
-        }
-
         Circle orbit = new Circle(0, 0, scaleToScreen(systemBody.getOrbitalRadius()), TRANSPARENT);
         orbit.getTransforms().add(new Translate(-orbit.getRadius(), -orbit.getRadius()));
         orbit.setStrokeType(StrokeType.CENTERED);
         orbit.setStroke(BLACK);
         orbit.setMouseTransparent(true);
 
+        Position parentAbsolutePosition = nonNull(parent) ? parent.getAbsolutePosition() : new Position(origin.getX(), origin.getY());
+
         orbit.relocate(
-                calculateScreenPosition(parent.getAbsolutePosition().getX(), origin.getX()),
-                calculateScreenPosition(parent.getAbsolutePosition().getY(), origin.getY()));
+                calculateScreenPosition(parentAbsolutePosition.getX(), origin.getX()),
+                calculateScreenPosition(parentAbsolutePosition.getY(), origin.getY()));
         return orbit;
     }
 
