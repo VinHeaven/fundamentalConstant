@@ -17,6 +17,9 @@ public class ApplicationRoot {
     public void start() {
         log.info("{} startup", this.getClass().getSimpleName());
 
+        Registry.setStateRoot(stateRoot);
+        Registry.setLogicRoot(logicRoot);
+
         stateRoot.start();
         logicRoot.start();
     }

@@ -6,7 +6,7 @@ import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
 import com.fundamentalconstant.core.state.pojo.physics.units.*;
 import com.fundamentalconstant.core.state.pojo.system.*;
 import com.fundamentalconstant.core.state.pojo.systembody.*;
-import com.fundamentalconstant.core.ui.*;
+import com.fundamentalconstant.core.ui.main.*;
 import com.fundamentalconstant.core.ui.utils.*;
 import javafx.geometry.*;
 import javafx.scene.*;

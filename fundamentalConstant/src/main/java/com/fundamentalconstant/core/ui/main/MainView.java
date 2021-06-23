@@ -2,9 +2,10 @@ package com.fundamentalconstant.core.ui.main;
 
 import com.fundamentalconstant.core.logic.*;
 import com.fundamentalconstant.core.state.*;
-import com.fundamentalconstant.core.ui.*;
 import com.fundamentalconstant.core.ui.control.*;
 import com.fundamentalconstant.core.ui.system.*;
+import com.fundamentalconstant.core.ui.window.systemViewWindow.*;
+import javafx.application.*;
 import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
@@ -24,8 +25,8 @@ public class MainView {
     private AnchorPane root;
     private StackPane stack;
 
-    public void init(Stage stage) {
-        this.stage = stage;
+    public void init(Stage primaryStage) {
+        this.stage = primaryStage;
 
         root = new AnchorPane();
 
@@ -34,9 +35,9 @@ public class MainView {
         JMetro jMetro = new JMetro(Style.LIGHT);
         jMetro.setScene(scene);
 
-        stage.setTitle("Sample Application");
+        primaryStage.setTitle("Sample Application");
         //        stage.setMaximized(true);
-        stage.setScene(scene);
+        primaryStage.setScene(scene);
 
         stack = new StackPane();
         stack.setAlignment(Pos.TOP_LEFT);
@@ -52,7 +53,23 @@ public class MainView {
                 Controls.create()
         );
 
-        stage.show();
+        primaryStage.setOnCloseRequest(e -> {
+            Platform.exit();
+            System.exit(0);
+        });
+
+        primaryStage.show();
+
+        develHelper();
+    }
+
+    private void develHelper() {
+        var view = SystemViewWindow.create();
+        view.setOnCloseRequest(e -> {
+            Platform.exit();
+            System.exit(0);
+        });
+        view.show();
     }
 
     public void refresh() {
