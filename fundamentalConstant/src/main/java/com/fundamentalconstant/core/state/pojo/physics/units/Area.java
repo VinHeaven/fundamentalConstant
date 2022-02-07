@@ -2,7 +2,6 @@ package com.fundamentalconstant.core.state.pojo.physics.units;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
-import com.fundamentalconstant.core.utils.*;
 import com.fundamentalconstant.core.utils.mapper.*;
 import lombok.*;
 
@@ -11,6 +10,7 @@ import java.math.*;
 
 import static com.fundamentalconstant.core.state.pojo.geometry.attr.DecimalValueValidator.*;
 import static com.fundamentalconstant.core.state.pojo.physics.QuantityUtils.*;
+import static com.fundamentalconstant.core.utils.QuantityHelper.*;
 import static tech.units.indriya.unit.Units.*;
 
 @Data
@@ -35,7 +35,7 @@ public class Area {
     }
 
     public Area(@NonNull String quantity) {
-        this.value = normalize(QuantityHelper.createQuantity(quantity), validator);
+        this.value = normalize(createQuantity(quantity, javax.measure.quantity.Area.class), validator);
     }
 
     public static Area zero() {
@@ -47,7 +47,7 @@ public class Area {
     }
 
     public boolean isZero() {
-        return value.isEquivalentTo(QuantityHelper.createQuantity(0, SQUARE_METRE));
+        return value.isEquivalentTo(createQuantity(0, SQUARE_METRE));
     }
 
     public Quantity<javax.measure.quantity.Area> getQuantity() {

@@ -5,6 +5,7 @@ import com.fundamentalconstant.core.state.pojo.system.*;
 import com.fundamentalconstant.core.state.pojo.system.attr.*;
 import com.fundamentalconstant.core.state.pojo.systembody.*;
 import com.fundamentalconstant.core.state.pojo.systembody.attr.*;
+import lombok.experimental.*;
 
 import java.math.*;
 import java.util.*;
@@ -13,11 +14,12 @@ import static com.fundamentalconstant.core.state.pojo.physics.units.Units.*;
 import static com.fundamentalconstant.core.utils.QuantityHelper.*;
 import static si.uom.SI.*;
 
+@UtilityClass
 public class RandomSystemGenerator {
 
     public static StarSystem generate() {
 
-        return StarSystem.builder()
+        StarSystem system = StarSystem.builder()
                 .name(new SystemName("Sol"))
                 .star(Star.builder()
                         .name(new SystemBodyName("Sun"))
@@ -74,5 +76,9 @@ public class RandomSystemGenerator {
                         ))
                         .build())
                 .build();
+
+        system.refreshSystemBodyRelations();
+
+        return system;
     }
 }

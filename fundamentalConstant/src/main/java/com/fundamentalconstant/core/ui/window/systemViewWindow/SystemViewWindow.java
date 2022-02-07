@@ -9,12 +9,14 @@ import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.stage.*;
+import lombok.extern.log4j.*;
 
 import java.util.*;
 import java.util.stream.*;
 
 import static com.fundamentalconstant.app.Registry.*;
 
+@Log4j2
 public class SystemViewWindow extends Stage {
 
     private SystemViewWindow() {
@@ -25,9 +27,9 @@ public class SystemViewWindow extends Stage {
         root.setPadding(new Insets(5));
 
         Pane pane2 = new Pane();
-        pane2.setBackground(new Background(new BackgroundFill(Color.BLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+        pane2.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
         Pane pane3 = new Pane();
-        pane3.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+        pane3.setBackground(new Background(new BackgroundFill(Color.DARKGREY, CornerRadii.EMPTY, Insets.EMPTY)));
 
         root.add(createSystemSelectionWithSystemInfo(), 0, 0);
         root.add(pane2, 0, 1);
@@ -37,7 +39,7 @@ public class SystemViewWindow extends Stage {
         this.setTitle("System View");
         this.setScene(secondScene);
 
-        this.setMaximized(true);
+        this.setMaximized(false);
     }
 
     public static SystemViewWindow create() {
@@ -45,27 +47,36 @@ public class SystemViewWindow extends Stage {
     }
 
     private Node createSystemSelectionWithSystemInfo() {
-        HBox root = new HBox();
-        root.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-        root.setSpacing(10);
+        VBox root = new VBox();
+        root.setBackground(new Background(new BackgroundFill(Color.CORNFLOWERBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+        root.setSpacing(5);
+        root.setPadding(new Insets(5));
 
-        HBox bar = new HBox();
-        bar.setAlignment(Pos.CENTER_LEFT);
-        bar.setSpacing(10);
+        extracted(root);
+        extracted(root);
 
-        ComboBoxWithRecords<SystemRecord> systemSelection = new ComboBoxWithRecords<>(
-                SystemRecord.map().sorted(Comparator.comparing((Record::getName))),
-                this::refresh);
-        bar.getChildren().add(systemSelection);
-
-        bar.getChildren().add(new DisplayField("Name", "Test"));
-
-        root.getChildren().add(bar);
         return root;
     }
 
-    private void refresh(SystemRecord systemRecord) {
+    private void extracted(VBox root) {
+        HBox bar = new HBox();
+        //        bar.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+        bar.setMaxHeight(0);
+        bar.setSpacing(10);
 
+        bar.getChildren().add(
+                new ComboBoxWithRecords<>(
+                        SystemRecord.map().sorted(Comparator.comparing((Record::getName))),
+                        this::refresh));
+
+        bar.getChildren().add(new DisplayField("Name", "Test"));
+        bar.getChildren().add(new DisplayField("Name", "Test2"));
+
+        root.getChildren().add(bar);
+    }
+
+    private void refresh(SystemRecord systemRecord) {
+        log.info(systemRecord.getName() + " selected!");
     }
 
     static class SystemRecord extends Record {

@@ -1,13 +1,13 @@
 package com.fundamentalconstant.core.utils.mapper;
 
+import lombok.experimental.*;
+
 import static java.util.Objects.*;
 
+@UtilityClass
 public class ObjectMapperInstance {
 
     private static ObjectMapper objectMapper;
-
-    private ObjectMapperInstance() {
-    }
 
     public static String write(Object obj) {
         if (isNull(objectMapper)) {

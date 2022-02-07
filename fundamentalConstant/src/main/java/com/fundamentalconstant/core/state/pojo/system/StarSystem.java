@@ -21,4 +21,16 @@ public class StarSystem {
     private SystemName name;
     @NonNull
     private Star star;
+
+    public void refreshSystemBodyRelations() {
+        refreshChildRelations(star);
+    }
+
+    private void refreshChildRelations(SystemBody body) {
+        body.getChilds().forEach(child -> {
+                    child.setParent(body);
+                    refreshChildRelations(child);
+                }
+        );
+    }
 }

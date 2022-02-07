@@ -11,6 +11,7 @@ import lombok.extern.jackson.*;
 import java.util.*;
 
 import static com.fundamentalconstant.core.state.pojo.physics.units.Distance.*;
+import static java.util.Objects.*;
 
 @Data
 @SuperBuilder
@@ -28,7 +29,6 @@ public class SystemBody {
     @NonNull
     @Builder.Default
     private Position absolutePosition = new Position(zero().getQuantity(), zero().getQuantity());
-
 
     //Physical Properties
     @NonNull
@@ -52,11 +52,16 @@ public class SystemBody {
     @Builder.Default
     private Radian currentRadian = Radian.zero();
 
+    private SystemBody parent;
     @NonNull
     @Builder.Default
     private Set<SystemBody> childs = new HashSet<>();
 
     public void addChild(SystemBody systemBody) {
         childs.add(systemBody);
+    }
+
+    public boolean hasParent() {
+        return nonNull(getParent());
     }
 }

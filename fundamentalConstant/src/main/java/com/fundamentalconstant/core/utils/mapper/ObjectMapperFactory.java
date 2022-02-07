@@ -4,16 +4,15 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.module.paramnames.*;
 import com.fundamentalconstant.core.utils.mapper.module.*;
+import lombok.experimental.*;
 import tech.uom.lib.jackson.*;
 
 import static java.util.Objects.*;
 
+@UtilityClass
 public class ObjectMapperFactory {
 
     private static ObjectMapper objectMapper;
-
-    private ObjectMapperFactory() {
-    }
 
     public static ObjectMapper getMapper() {
         if (isNull(objectMapper)) {

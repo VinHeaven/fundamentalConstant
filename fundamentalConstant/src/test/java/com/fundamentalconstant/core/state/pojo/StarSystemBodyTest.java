@@ -1,6 +1,5 @@
 package com.fundamentalconstant.core.state.pojo;
 
-import com.fasterxml.jackson.core.*;
 import com.fundamentalconstant.core.logic.*;
 import com.fundamentalconstant.core.state.pojo.geometry.*;
 import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
@@ -29,7 +28,7 @@ import static tech.units.indriya.AbstractUnit.*;
 class StarSystemBodyTest {
 
     @Test
-    void test() throws JsonProcessingException {
+    void test() {
         var body1 = SystemBody.builder().relativePosition(new Position(new XCoordinate("5", METRE), new YCoordinate("5", METRE))).name(new SystemBodyName("TestName")).build();
         var body2 = SystemBody.builder().relativePosition(new Position(new XCoordinate("5", METRE), new YCoordinate("5", METRE))).name(new SystemBodyName("TestName")).build();
 
@@ -62,10 +61,10 @@ class StarSystemBodyTest {
                 .name(new SystemBodyName("BodyName"))
                 .albedo(new Albedo("0.5"))
                 .relativePosition(new Position(new XCoordinate("5", METRE), new YCoordinate("5", METRE)))
-                .mass(new Mass("500000.4", KILOGRAM))
-                .orbitalRadius(new OrbitalRadius("150000000000", METRE))
-                .radius(new Radius("6000000", METRE))
-                .velocity(new Velocity("100000.8", METRE_PER_SECOND))
+                .mass(new Mass("500.4", TON))
+                .orbitalRadius(new OrbitalRadius("1", ASTRONOMICAL_UNIT))
+                .radius(new Radius("6000", KILOMETRE))
+                .velocity(new Velocity("100.8", KILOMETRE_PER_SECOND))
                 .build();
 
         String json = ObjectMapperInstance.write(body);
@@ -92,7 +91,7 @@ class StarSystemBodyTest {
 
     @Test
     void gak() {
-        var dist = new Distance(new DecimalNumber(50), METRE);
+        var dist = new Velocity(new DecimalNumber(50), KILOMETRE_PER_SECOND);
         System.out.println(dist.getQuantity());
     }
 

@@ -5,13 +5,13 @@ import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
 import com.fundamentalconstant.core.utils.*;
 import com.fundamentalconstant.core.utils.mapper.*;
 import lombok.*;
-import tech.units.indriya.*;
 
 import javax.measure.*;
 import javax.measure.quantity.*;
 
 import static com.fundamentalconstant.core.state.pojo.geometry.attr.DecimalValueValidator.*;
 import static com.fundamentalconstant.core.state.pojo.physics.QuantityUtils.*;
+import static com.fundamentalconstant.core.utils.QuantityHelper.*;
 import static tech.units.indriya.AbstractUnit.*;
 
 @EqualsAndHashCode
@@ -32,7 +32,7 @@ public class Albedo {
     }
 
     public Albedo(@NonNull String quantity) {
-        this.value = normalize(AbstractQuantity.parse(quantity), validator);
+        this.value = normalize(createQuantityDimensionless(quantity), validator);
     }
 
     public static Albedo zero() {

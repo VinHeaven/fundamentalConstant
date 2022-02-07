@@ -36,8 +36,6 @@ public class UiRoot implements ApplicationListener<UiApplication.StageReadyEvent
     }
 
     public void refresh() {
-        Platform.runLater(() -> {
-            mainView.refresh();
-        });
+        Platform.runLater(() -> mainView.refresh());
     }
 }

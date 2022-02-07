@@ -168,7 +168,7 @@ public class SystemView extends BorderPane implements Updater {
 
     private void hideObjectsIfToCloseToParent(SystemBody systemBody, List<Node> objectsToDraw) {
         Distance distanceBetweenChildAndParent = new Distance(systemBody.getOrbitalRadius().getQuantity());
-        if (scaleToScreen(distanceBetweenChildAndParent) < 5) {
+        if (systemBody.hasParent() && scaleToScreen(distanceBetweenChildAndParent) < 5) {
             objectsToDraw.forEach(n -> n.setVisible(false));
         }
     }

@@ -9,6 +9,9 @@ import javax.measure.*;
 import java.io.*;
 
 public class QuantityModule extends SimpleModule {
+
+    private static String DIMENSIONLESS_UNIT = "one";
+
     public QuantityModule() {
         addSerializer(Quantity.class, new QuantitySerializer());
         addDeserializer(Quantity.class, new QuantityDeserializer());
@@ -18,7 +21,14 @@ public class QuantityModule extends SimpleModule {
 
         @Override
         public void serialize(Quantity obj, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-            jgen.writeString(obj.toSystemUnit().toString());
+            Quantity quantity = obj.toSystemUnit();
+            if (quantity.getUnit().toString().equals(DIMENSIONLESS_UNIT)) {
+                jgen.writeString(quantity.getValue().toString().replaceAll("0+$", ""));
+            } else if (quantity.getValue().toString().contains(".")) {
+                jgen.writeString(quantity.getValue().toString().replaceAll("0+$", "") + " " + quantity.getUnit());
+            } else {
+                jgen.writeString(obj.toSystemUnit().toString());
+            }
         }
     }
 

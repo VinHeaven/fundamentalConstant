@@ -2,7 +2,6 @@ package com.fundamentalconstant.core.state.pojo.physics.units;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fundamentalconstant.core.state.pojo.geometry.attr.*;
-import com.fundamentalconstant.core.utils.*;
 import com.fundamentalconstant.core.utils.mapper.*;
 import lombok.*;
 
@@ -10,6 +9,7 @@ import javax.measure.*;
 
 import static com.fundamentalconstant.core.state.pojo.geometry.attr.DecimalValueValidator.*;
 import static com.fundamentalconstant.core.state.pojo.physics.QuantityUtils.*;
+import static com.fundamentalconstant.core.utils.QuantityHelper.*;
 import static tech.units.indriya.unit.Units.*;
 
 @EqualsAndHashCode
@@ -34,7 +34,7 @@ public class Mass {
     }
 
     public Mass(@NonNull String quantity) {
-        this.value = normalize(QuantityHelper.createQuantity(quantity), validator);
+        this.value = normalize(createQuantity(quantity, javax.measure.quantity.Mass.class), validator);
     }
 
     public static Mass zero() {

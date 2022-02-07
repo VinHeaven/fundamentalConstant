@@ -32,7 +32,7 @@ public class LogicRoot {
     public void start() {
         log.info("{} startup", this.getClass().getSimpleName());
 
-        var timer = new Timer(500, e -> move());
+        var timer = new Timer(2000, e -> move());
         timer.setRepeats(true);
         timer.start();
     }

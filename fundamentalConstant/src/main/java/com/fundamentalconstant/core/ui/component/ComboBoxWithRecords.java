@@ -11,10 +11,15 @@ import static javafx.collections.FXCollections.*;
 
 public class ComboBoxWithRecords<T extends Record> extends ComboBox<T> {
 
-    public ComboBoxWithRecords(Stream<T> stream, Consumer<T> consumer) {
-        super(observableList(stream.collect(Collectors.toList())));
+    public ComboBoxWithRecords(Stream<T> records, Consumer<T> onActionEvent) {
+        super(observableList(records.toList()));
         this.setCellFactory(createCallback());
-        this.setOnAction(e -> consumer.accept(this.getSelectionModel().getSelectedItem()));
+        this.setOnAction(e -> onActionEvent.accept(this.getSelectionModel().getSelectedItem()));
+
+        this.getSelectionModel().selectFirst();
+
+        //workaround because the initial selection does not trigger onAction for some reason
+        onActionEvent.accept(this.getSelectionModel().getSelectedItem());
     }
 
     private Callback<ListView<T>, ListCell<T>> createCallback() {
